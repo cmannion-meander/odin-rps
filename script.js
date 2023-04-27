@@ -48,34 +48,56 @@ function playRound(playerSelection, computerSelection) {
 // buttons is a node list. It looks and acts much like an array.
 const buttons = document.querySelectorAll('button');
 
+// target the div dedicated to showing the results
 const results = document.querySelector('#results');
+
+// set initial scores for player and computer to zero
+let playerScore = 0;
+let computerScore = 0;
 
 // we use the .forEach method to iterate through each button
 buttons.forEach((button) => {
 
   // and for each one we add a 'click' listener
   button.addEventListener('click', () => {
-    //alert(button.id);
-    //console.log(playRound(button.id, getComputerChoice()));
     let playerSelection = button.id;
     let computerSelection = getComputerChoice();
     outcome = (playRound(playerSelection, computerSelection));
     const content = document.createElement('div');
     if (outcome == 1) {
-        content.classList.add('content');
-        content.textContent = `You Win! ${playerSelection} beats ${computerSelection}`;
-        results.appendChild(content);
-        //playerScore += 1;
+        playerScore += 1;
+        if (playerScore == 5) {
+            alert("You Win!");
+            playerScore = 0;
+            computerScore = 0;
+            return;
+        }
+        else {
+            content.classList.add('content');
+            content.textContent = `You Win! ${playerSelection} beats ${computerSelection}. \n
+            You have ${playerScore} points and the computer has ${computerScore} points. `;
+            results.appendChild(content);
+        };
     } else if (outcome == -1) {
-        content.classList.add('content');
-        content.textContent = `You Lose! ${computerSelection} beats ${playerSelection}`;
-        results.appendChild(content);
-        //computerScore += 1;
+        computerScore += 1;
+        if (computerScore == 5) {
+            alert("You Lose!");
+            playerScore = 0;
+            computerScore = 0;
+            return;
+        }
+        else {
+            content.classList.add('content');
+            content.textContent = `You Lose! ${computerSelection} beats ${playerSelection}. \n
+            You have ${playerScore} points and the computer has ${computerScore} points. `;
+            results.appendChild(content);
+        };
     } else {
         content.classList.add('content');
-        content.textContent = `Draw! You both chose ${playerSelection}`;
+        content.textContent = `Draw! You both chose ${playerSelection}. \n
+        You have ${playerScore} points and the computer has ${computerScore} points. `;
         results.appendChild(content);
-    }
+    };
     
   });
 });
